@@ -51,6 +51,26 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `db_jarvisresto`.`pesanan`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`pesanan` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `kode_pesanan` VARCHAR(255) NOT NULL,
+  `nomeja` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(255) NOT NULL,
+  `total_harga` INT NOT NULL,
+  `kode_unik` INT NOT NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  `nama_pemesan` VARCHAR(255) NOT NULL,
+  `nohp` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  UNIQUE INDEX `kode_pesanan_UNIQUE` (`kode_pesanan` ASC) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `db_jarvisresto`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`users` (
@@ -67,31 +87,6 @@ CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`users` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
   UNIQUE INDEX `nohp_UNIQUE` (`nohp` ASC) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `db_jarvisresto`.`pesanan`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`pesanan` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `users_id` BIGINT(20) NOT NULL,
-  `kode_pesanan` VARCHAR(255) NOT NULL,
-  `nomeja` VARCHAR(255) NOT NULL,
-  `status` VARCHAR(255) NOT NULL,
-  `total_harga` INT NOT NULL,
-  `kode_unik` INT NOT NULL,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
-  INDEX `fk_pesanan_users1_idx` (`users_id` ASC) ,
-  UNIQUE INDEX `kode_pesanan_UNIQUE` (`kode_pesanan` ASC) ,
-  CONSTRAINT `fk_pesanan_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `db_jarvisresto`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -128,7 +123,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`transaction` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `users_id` BIGINT(20) NOT NULL,
   `pesanan_id` BIGINT NOT NULL,
   `total_bayar` INT NOT NULL,
   `jumlah_bayar` INT NOT NULL,
@@ -138,13 +132,7 @@ CREATE TABLE IF NOT EXISTS `db_jarvisresto`.`transaction` (
   `updated_at` TIMESTAMP NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
-  INDEX `fk_transaction_users1_idx` (`users_id` ASC) ,
   INDEX `fk_transaction_pesanan1_idx` (`pesanan_id` ASC) ,
-  CONSTRAINT `fk_transaction_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `db_jarvisresto`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_transaction_pesanan1`
     FOREIGN KEY (`pesanan_id`)
     REFERENCES `db_jarvisresto`.`pesanan` (`id`)
