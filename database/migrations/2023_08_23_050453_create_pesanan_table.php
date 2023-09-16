@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nomeja');
             $table->string('status');
             $table->integer('total_harga');
-            $table->integer('kode_unik');
             $table->unique('kode_pesanan');
             $table->string('nama_pemesan');
             $table->string('no_hp');

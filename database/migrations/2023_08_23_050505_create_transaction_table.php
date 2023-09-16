@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('pesanan_id')->references('id')->on('pesanan')
                 ->onDelete('no action')->onUpdate('no action');
+            $table->string('metode_pembayaran')->default('cash');
         });
     }
 

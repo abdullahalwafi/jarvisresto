@@ -83,4 +83,6 @@ Route::controller(MenuFilterController::class)->group(function () {
 //Cart
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/cart/cart/{id}', [CartController::class, 'tambah'])->where('id', '[0-9]+');
+Route::post('/update-cart/{id}', [CartController::class, 'updateCart'])->name('update.cart');
 Route::delete('/delete-cart-product/{id}', [CartController::class, 'delete'])->name('delete.cart.product');
+Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');

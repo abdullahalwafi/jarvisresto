@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pesanan;
+use App\Models\PesananDetails;
 use App\Models\Products;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -12,39 +15,129 @@ class CartController extends Controller
      */
     public function index()
     {
+        $metode = new TripayController();
+        $metode = $metode->getMetode();
         return view('home.contents.cart', [
-            "title"=> "Cart"
-            ]);
+            "title" => "Cart",
+            "metode" => $metode
+        ]);
     }
 
     public function tambah($id)
     {
-        
-            $title = "Cart";
-            $product = Products::findOrFail($id);
-            $cart = session()->get('cart',[]);
-            if(isset($cart[$id])){
-                $cart[$id]['quantity']++;
-            }else{
-                $cart[$id] = [
-                    "name" => $product->nama,
-                    "quantity" => 1,
-                    "price" => $product->harga,
-                    "image" => $product->gambar,
-                    "category" => $product->categories
-                ];
-            }
-            session()->put('cart', $cart);
-            return redirect()->back()->with('added', 'Item has been added to cart!');
 
+        $title = "Cart";
+        $product = Products::findOrFail($id);
+        $cart = session()->get('cart', []);
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "id" => $product->id,
+                "name" => $product->nama,
+                "quantity" => 1,
+                "price" => $product->harga,
+                "total" => $product->harga * 1,
+                "image" => $product->gambar,
+                "category" => $product->categories
+            ];
+        }
+        session()->put('cart', $cart);
+        return redirect()->back()->with('added', 'Item has been added to cart!');
     }
+    public function updateCart(Request $request, $id)
+    {
+        $cart = session()->get('cart');
 
+        if (isset($cart[$id])) {
+            $newQuantity = intval($request->input('quantity'));
+
+            // Pastikan $newQuantity tidak kurang dari 0 atau negatif
+            if ($newQuantity >= 0) {
+                $cart[$id]['quantity'] = $newQuantity;
+                $cart[$id]['total'] = $cart[$id]['price'] * $newQuantity;
+                session()->put('cart', $cart);
+
+                return response()->json(['success' => true]);
+            }
+        }
+
+        return response()->json(['success' => false]);
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function checkout(Request $request)
     {
-        //
+        if ($request->metode == "cash") {
+
+            $cart = session()->get('cart');
+            $total = $request->total_bayar;
+            $metode = $request->metode;
+            // random invoice
+            $invoice = rand(100000, 999999);
+            $pemesan = [];
+            $pemesan['nama'] = $request->nama_pemesan;
+            $pemesan['no_hp'] = $request->no_hp;
+            $pesanan = Pesanan::create([
+                'kode_pesanan' => $invoice,
+                'nama_pemesan' => $pemesan['nama'],
+                'no_hp' => $pemesan['no_hp'],
+                'total_harga' => $total,
+                'status' => 'pending',
+                'nomeja' => $request->nomeja
+            ]);
+            foreach ($cart as $key => $value) {
+                PesananDetails::create([
+                    'pesanan_id' => $pesanan->id,
+                    'products_id' => $value['id'],
+                    'qty' => $value['quantity'],
+                    'total_harga' => $value['total']
+                ]);
+            }
+            // stop session cart
+            session()->forget('cart');
+            return redirect()->route('home')->with('success', 'Pesanan berhasil dibuat');
+        } else {
+            $cart = session()->get('cart');
+            $total = $request->total_bayar;
+            $metode = $request->metode;
+            // random invoice
+            $invoice = rand(100000, 999999);
+            $pemesan = [];
+            $pemesan['nama'] = $request->nama_pemesan;
+            $pemesan['no_hp'] = $request->no_hp;
+            $pesanan = Pesanan::create([
+                'kode_pesanan' => $invoice,
+                'nama_pemesan' => $pemesan['nama'],
+                'no_hp' => $pemesan['no_hp'],
+                'total_harga' => $total,
+                'status' => 'pending',
+                'nomeja' => $request->nomeja
+            ]);
+            foreach ($cart as $key => $value) {
+                PesananDetails::create([
+                    'pesanan_id' => $pesanan->id,
+                    'products_id' => $value['id'],
+                    'qty' => $value['quantity'],
+                    'total_harga' => $value['total']
+                ]);
+            }
+            // add transaksi
+            Transaction::create([
+                'pesanan_id' => $pesanan->id,
+                'total_bayar' => $total,
+                'jumlah_bayar' => $total,
+                'kembalian' => 0,
+                'status' => 'pending',
+                'metode' => $metode
+            ]);
+            $transaksi = new TripayController();
+            $transaksi = $transaksi->requestTransaksi($cart, $metode, $invoice, $total, $pemesan);
+            $redirect = $transaksi->checkout_url;
+            session()->forget('cart');
+            return redirect($redirect);
+        }
     }
 
     /**
