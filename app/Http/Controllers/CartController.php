@@ -97,7 +97,7 @@ class CartController extends Controller
             }
             // stop session cart
             session()->forget('cart');
-            return redirect()->route('home')->with('success', 'Pesanan berhasil dibuat');
+            return redirect("/")->with('success', 'Pesanan berhasil dibuat');
         } else {
             $cart = session()->get('cart');
             $total = $request->total_bayar;

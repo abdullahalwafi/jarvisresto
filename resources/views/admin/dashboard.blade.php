@@ -211,7 +211,7 @@
             },
             series: [{
                 name: 'Total Pesanan',
-                data:{{$data}}
+                data:{!!$data!!}
 
             }]
         });

@@ -73,7 +73,7 @@
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ number_format($item->harga, 0, ',', '.') }}</td>
                                     <td>
-                                        @if ($item->is_ready === 1)
+                                        @if ($item->is_ready == 1)
                                             Ready
                                         @else
                                             Kosong

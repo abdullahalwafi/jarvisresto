@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth', 'level:admin,kasir,manager']], function (
     Route::resource('/categories', CategoryController::class);
     Route::resource('/transaksi', TransaksiController::class);
     Route::get('/pesanan', [PesananController::class, 'index']);
+    Route::put('/pesanan/{id}', [PesananController::class, 'update'])->name('pesanan.update');
 });
 
 //Superuser Page

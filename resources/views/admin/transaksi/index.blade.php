@@ -54,6 +54,7 @@
                                     <th>Total Bayar</th>
                                     <th>Jumlah Bayar</th>
                                     <th>Kembalian</th>
+                                    <th>Metode</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -66,6 +67,7 @@
                                         <td>{{ number_format($item->total_bayar, 0, ',', '.') }} </td>
                                         <td>{{ number_format($item->jumlah_bayar, 0, ',', '.') }} </td>
                                         <td>{{ number_format($item->kembalian, 0, ',', '.') }} </td>
+                                        <td>{{ $item->metode_pembayaran }}</td>
                                         <td class="table-{{ $item->status == 'success' ? 'success' : 'warning' }}">
                                             {{ $item->status }}</td>
                                         <td class="d-flex">

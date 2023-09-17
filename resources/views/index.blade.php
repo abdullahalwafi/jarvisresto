@@ -10,7 +10,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
     <link rel="shortcut icon" href="/assets/images/logo-wh.png">
 
     <!-- Google Web Fonts -->
@@ -70,4 +70,16 @@
     <script src="/js/main.js"></script>
 
     @yield('script')
+    @isset($_GET['tripay_reference'])
+        <script>
+            alert("pembayaran berhasil!");
+        </script>
+    @endisset
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
+
+
 </body>
