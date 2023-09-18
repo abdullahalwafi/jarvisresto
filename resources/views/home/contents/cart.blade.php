@@ -88,22 +88,7 @@
                                             </small>
                                         </label>
                                     </div>
-                                    @foreach ($metode as $item)
-                                        @if ($item->active)
-                                            @php
-                                                $admin = $item->total_fee->flat + ($item->total_fee->percent / 100) * $total;
-                                            @endphp
-                                            <div class="col-2">
-                                                <label>
-                                                    <input type="radio" name="metode" value="{{ $item->code }}"
-                                                        data-admin-fee="{{ $admin }}" required>
-                                                    <img style="width: 70px" src="{{ $item->icon_url }}"
-                                                        alt="{{ $item->name }}">
-                                                    <small>admin : {{ number_format($admin, 0, ',', '.') }}</small>
-                                                </label>
-                                            </div>
-                                        @endif
-                                    @endforeach
+                                    <!-- -->
                                 </div>
                             </div>
                             <div class="card mb-4">
@@ -132,11 +117,8 @@
                                         </div>
                                         <div class="form-group col-4">
                                             <label for="nomeja" class="col-4">No Meja</label>
-                                            <select name="nomeja" class="form-control col-8">
-                                                @for ($i = 1; $i <= 15; $i++)
-                                                    <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
-                                            </select>
+                                            <a class="btn btn-secondary btn-block col-8" data-bs-target="#tableSelect"
+                                                data-bs-toggle="modal">Select Table</a>
                                         </div>
                                     </div>
                                 </div>
@@ -152,10 +134,34 @@
             </div>
         </div>
     </section>
+
+    <!-- Table -->
+
+    <div class="modal fade" id="tableSelect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Table Selector</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section style="background-color: #eee;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
 @section('script')
+    <script src="/js/script.js"></script>
     @if (session('cart'))
         <script type="text/javascript">
             $(document).ready(function() {

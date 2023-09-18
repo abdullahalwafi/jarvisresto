@@ -15,11 +15,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $metode = new TripayController();
-        $metode = $metode->getMetode();
+        //$metode = new TripayController();
+        //$metode = $metode->getMetode();
         return view('home.contents.cart', [
             "title" => "Cart",
-            "metode" => $metode
+        //    "metode" => $metode
         ]);
     }
 
