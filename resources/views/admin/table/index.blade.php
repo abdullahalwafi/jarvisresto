@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="mb-0">{{ $title }} Table</h4>
+                <h4 class="mb-0">{{ $title }} Page</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
@@ -55,19 +55,17 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Nama</th>
-                                <th>Gambar</th>
-                                <th>Aksi</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $item)
+                            @foreach ($tables as $item)
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td class="text-center">{{ $item->nama }}</td>
-                                    <td class="text-center"><a href="" type="button" class="btn btn-primary btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#picture{{ $item->id }}">picture</a>
-                                    </td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->status }}</td>
                                     <td class="d-flex justify-content-center">
                                         @can('admin')
                                             <a href="" type="button" class="btn btn-warning btn-sm mx-2"
@@ -89,20 +87,20 @@
     </div>
 
     <!-- Modal Delete-->
-    @foreach ($categories as $item)
+    @foreach ($tables as $item)
         <div class="modal fade" id="deleteCategories{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detele Categories {{ $item->nama }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detele Table {{ $item->name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Yakin Delete Data ini? {{ $item->nama }}, data Akan Dihapus Permanen
+                        Yakin Delete Data ini? {{ $item->name }}, data Akan Dihapus Permanen
                     </div>
                     <div class="modal-footer">
-                        <form action="categories/{{ $item->id }}" method="POST">
+                        <form action="/table/{{ $item->id }}" method="POST">
                             @csrf
                             @method('delete')
                             <input type="submit" class="btn btn-danger btn-sm" value="Delete">
@@ -114,36 +112,37 @@
     @endforeach
 
     <!-- Category Edit-->
-    @foreach ($categories as $item)
+    @foreach ($tables as $item)
         <div class="modal fade" id="editCategories{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Categories {{ $item->nama }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Table {{ $item->name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="categories/{{ $item->id }}" method="POST" enctype="multipart/form-data">
+                        <form action="table/{{ $item->id }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="title">Nama Categories</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" id="title" value="{{ old('nama', $item->nama) }}">
-                                @error('nama')
+                                <label for="title">Table Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" id="title" value="{{ old('name', $item->name) }}">
+                                @error('name')
                                     <div id="validationServer03Feedback" class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
-                                <label for="categoryGambar" class="form-label">Gambar</label>
-                                <input class="form-control @error('gambar') is-invalid @enderror" type="file"
-                                    id="categoryGambar" name="gambar">
-                                @error('gambar')
-                                    <div class="invalid-feedback text-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                            <div class="form-group mt-2">
+                                <label for="title">Status</label>
+
+
+                                <select class="form-select" aria-label="Default select example" name="status">
+                                    @foreach (App\Enums\TableStatus::cases() as $item)
+                                        <option value="{{ $item->value }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+
                             </div>
                             <input type="submit" class="btn btn-warning mt-3" value="Update">
                         </form>
@@ -154,35 +153,35 @@
     @endforeach
 
 
-    <!-- Category Add-->
-    <div class="modal fade" id="createCategories" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <!--Add-->
+    <div class="modal fade" id="createCategories" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Categories</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Table</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="categories" method="POST" enctype="multipart/form-data">
+                    <form action="table" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="title">Nama Categories</label>
-                            <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama"
-                                id="title" value="{{ old('nama') }}">
+                            <label for="title">Table Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                                id="title" value="{{ old('name') }}">
                             @error('nama')
                                 <div id="validationServer03Feedback" class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="categoryGambar" class="form-label">Gambar</label>
-                            <input class="form-control @error('gambar') is-invalid @enderror" type="file"
-                                id="categoryGambar" name="gambar">
-                            @error('gambar')
-                                <div class="invalid-feedback text-danger">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="form-group mt-2">
+                            <label for="title">Status</label>
+
+
+                            <select class="form-select" aria-label="Default select example" name="status">
+                                @foreach (App\Enums\TableStatus::cases() as $item)
+                                    <option value="{{ $item->value }}">{{ $item->value }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                         <input type="submit" class="btn btn-success mt-3" value="Add">
                     </form>
@@ -190,24 +189,4 @@
             </div>
         </div>
     </div>
-    <!-- Category picture-->
-    @foreach ($categories as $item)
-        <div class="modal fade" id="picture{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Image Category {{ $item->nama }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="\img\categories\{{ $item->gambar }}" alt="" width="30%" height="30%">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
 @endsection

@@ -25,7 +25,7 @@
                         <div id="total-revenue-chart"></div>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1">Rp.<span data-plugin="counterup">{{ $totaltransaction }}</span></h4>
+                        <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totaltransaction }}</span></h4>
                         <p class="text-muted mb-0">Total Transaksi</p>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                         <div id="orders-chart"> </div>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1">Rp.<span data-plugin="counterup">{{ $totalpesanan }}</span></h4>
+                        <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totalpesanan }}</span></h4>
                         <p class="text-muted mb-0">total Pesanan</p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <div id="growth-chart"></div>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1">+ <span data-plugin="counterup">{{ $totaluser }}</span></h4>
+                        <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totaluser }}</span></h4>
                         <p class="text-muted mb-0">Total User</p>
                     </div>
                 </div>
@@ -100,15 +100,16 @@
                                     @if ($userterbaru)
                                         @foreach ($userterbaru as $item)
                                             <tr>
-                                                <td style="width: 20px;"><img src="/assets/images/users/avatar-{{rand(1, 8)}}.jpg"
+                                                <td style="width: 20px;"><img
+                                                        src="/assets/images/users/avatar-{{ rand(1, 8) }}.jpg"
                                                         class="avatar-xs rounded-circle " alt="..."></td>
                                                 <td>
-                                                    <h6 class="font-size-15 mb-1 fw-normal">{{$item->name}}</h6>
-                                                    <p class="text-muted font-size-13 mb-0"><i
-                                                            class="mdi mdi-email"></i>
-                                                        {{$item->email}}</p>
+                                                    <h6 class="font-size-15 mb-1 fw-normal">{{ $item->name }}</h6>
+                                                    <p class="text-muted font-size-13 mb-0"><i class="mdi mdi-email"></i>
+                                                        {{ $item->email }}</p>
                                                 </td>
-                                                <td><span class="badge bg-soft-{{$item->level == "user" ? "primary" : ($item->level == "kasir" ? "info" : ($item->level == "admin" ? "success" : ($item->level == "manager" ? "warning" : "") ) )}} font-size-12">{{$item->level}}</span>
+                                                <td><span
+                                                        class="badge bg-soft-{{ $item->level == 'user' ? 'primary' : ($item->level == 'kasir' ? 'info' : ($item->level == 'admin' ? 'success' : ($item->level == 'manager' ? 'warning' : ''))) }} font-size-12">{{ $item->level }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -137,10 +138,10 @@
                         </tr>
                         @foreach ($pesananterbaru as $item)
                             <tr>
-                                <td>{{$item->kode_pesanan}}</td>
-                                <td>{{$item->nama_pemesan}}</td>
-                                <td><?= number_format($item->total_harga, 0, ',', '.');?></td>
-                                <td>{{$item->status}}</td>
+                                <td>{{ $item->kode_pesanan }}</td>
+                                <td>{{ $item->nama_pemesan }}</td>
+                                <td><?= number_format($item->total_harga, 0, ',', '.') ?></td>
+                                <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach
                     </table>
@@ -162,9 +163,9 @@
                         </tr>
                         @foreach ($transactionterbaru as $item)
                             <tr>
-                                <td>{{$item->pesanan->kode_pesanan}}</td>
-                                <td><?= number_format($item->total_bayar, 0, ',', '.');?></td>
-                                <td>{{$item->status}}</td>
+                                <td>{{ $item->pesanan->kode_pesanan }}</td>
+                                <td><?= number_format($item->total_bayar, 0, ',', '.') ?></td>
+                                <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach
                     </table>
@@ -186,7 +187,7 @@
                 text: 'Monthly Sales Data'
             },
             xAxis: {
-                categories: {!!$categories!!},
+                categories: {!! $categories !!},
                 crosshair: true
             },
             yAxis: {
@@ -211,7 +212,7 @@
             },
             series: [{
                 name: 'Total Pesanan',
-                data:{!!$data!!}
+                data: {!! $data !!}
 
             }]
         });

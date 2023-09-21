@@ -31,7 +31,7 @@ class DashboardController extends Controller
             'totalpesanan' => Pesanan::count(),
             'totaltransaction' => Transaction::count(),
             'totalproducts' => Products::count(),
-            'totaluser' => User::where('level', 'user')->count(),
+            'totaluser' => User::count(),
             'userterbaru' => User::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
             'pesananterbaru' => Pesanan::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
             'transactionterbaru' => Transaction::orderBy('created_at', 'desc')->latest()->limit(8)->get(),

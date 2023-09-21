@@ -69,25 +69,25 @@
                         <tbody>
                             @foreach ($products as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ number_format($item->harga, 0, ',', '.') }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $item->nama }}</td>
+                                    <td class="text-center">{{ number_format($item->harga, 0, ',', '.') }}</td>
+                                    <td class="text-center">
                                         @if ($item->is_ready == 1)
                                             Ready
                                         @else
                                             Kosong
                                         @endif
                                     </td>
-                                    <td>{{ $item->categories->nama }}</td>
+                                    <td class="text-center">{{ $item->categories->nama }}</td>
 
-                                    <td><a href="" type="button" class="btn btn-primary btn-sm"
+                                    <td class="text-center"><a href="" type="button" class="btn btn-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#picture{{ $item->id }}">picture</a>
                                     </td>
-                                    <td class="d-flex">
+                                    <td class="d-flex justify-content-center">
                                         @can('admin')
                                             <a href="/product/{{ $item->id }}/edit"><button
-                                                    class="btn btn-warning btn-sm">Edit</button></a>
+                                                    class="btn btn-warning btn-sm mx-2">Edit</button></a>
                                             <a href="" type="button" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#deleteProduct{{ $item->id }}">Delete</a>

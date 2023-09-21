@@ -26,5 +26,10 @@ class Pesanan extends Model
     {
         return $this->hasOne(Transaction::class);
     }
+
+    public function table()
+    {
+        return $this->belongsTo(Table::class);
+    }
     
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TableStatus;
+use App\Models\Table;
 use App\Models\Pesanan;
-use App\Models\PesananDetails;
 use App\Models\Products;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\PesananDetails;
 
 class CartController extends Controller
 {
@@ -19,6 +21,7 @@ class CartController extends Controller
         //$metode = $metode->getMetode();
         return view('home.contents.cart', [
             "title" => "Cart",
+            "tables" => Table::where('status', TableStatus::Available)->get(),
         //    "metode" => $metode
         ]);
     }
@@ -79,14 +82,19 @@ class CartController extends Controller
             $pemesan = [];
             $pemesan['nama'] = $request->nama_pemesan;
             $pemesan['no_hp'] = $request->no_hp;
+            $meja = Table::find($request->table_id);
+                if ($meja) {
+                $meja->update(['status' => 'Pending']);
+            }
             $pesanan = Pesanan::create([
                 'kode_pesanan' => $invoice,
                 'nama_pemesan' => $pemesan['nama'],
                 'no_hp' => $pemesan['no_hp'],
                 'total_harga' => $total,
                 'status' => 'pending',
-                'nomeja' => $request->nomeja
+                'table_id' => $request->nomeja
             ]);
+            
             foreach ($cart as $key => $value) {
                 PesananDetails::create([
                     'pesanan_id' => $pesanan->id,
@@ -95,6 +103,8 @@ class CartController extends Controller
                     'total_harga' => $value['total']
                 ]);
             }
+            
+            
             // stop session cart
             session()->forget('cart');
             return redirect("/")->with('success', 'Pesanan berhasil dibuat');
@@ -113,7 +123,7 @@ class CartController extends Controller
                 'no_hp' => $pemesan['no_hp'],
                 'total_harga' => $total,
                 'status' => 'pending',
-                'nomeja' => $request->nomeja
+                'table_id' => $request->nomeja
             ]);
             foreach ($cart as $key => $value) {
                 PesananDetails::create([
@@ -134,6 +144,10 @@ class CartController extends Controller
             ]);
             $transaksi = new TripayController();
             $transaksi = $transaksi->requestTransaksi($cart, $metode, $invoice, $total, $pemesan);
+            $meja = Table::find($request->table_id);
+            if ($meja) {
+            $meja->update(['status' => 'Pending']);
+            }
             $redirect = $transaksi->checkout_url;
             session()->forget('cart');
             return redirect($redirect);

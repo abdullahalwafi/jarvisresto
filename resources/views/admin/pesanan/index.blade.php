@@ -39,7 +39,7 @@
                                         <td>{{ $item->kode_pesanan }}</td>
                                         <td>{{ $item->nama_pemesan }}</td>
                                         <td>{{ $item->no_hp }}</td>
-                                        <td>{{ $item->nomeja }}</td>
+                                        <td>{{ $item->table->name }}</td>
                                         <td>{{ number_format($item->total_harga, 0, ',', '.') }} </td>
                                         <td class="table-{{ $item->status == 'success' ? 'success' : 'warning' }}">
                                             {{ $item->status }}</td>

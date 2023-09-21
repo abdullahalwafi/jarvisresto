@@ -15,7 +15,7 @@
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item text-center rounded overflow-hidden">
                             <div class="rounded overflow-hidden mb-2" style="max-height: 50%;">
-                                <img class="img-fluid" src="\img\categories\{{ $category->gambar }}" alt="">
+                                <img class="img-fluid" src="\public\img\categories\{{ $category->gambar }}" alt="">
                             </div>
                             <h5 class="mt-5">{{ $category->nama }}</h5>
                             <div class="mt-2">

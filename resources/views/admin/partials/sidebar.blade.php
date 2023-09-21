@@ -68,6 +68,12 @@
                         <span>Transaksi</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/table" class=" waves-effect">
+                        <i class="uil-vertical-distribute-bottom"></i>
+                        <span>Table</span>
+                    </a>
+                </li>
                 @can('superuser')
                     <li class="menu-title">Laporan</li>
                     <li>

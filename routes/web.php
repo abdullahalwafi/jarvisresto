@@ -8,6 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -17,8 +20,6 @@ use App\Http\Controllers\CategoryMenuController;
 use App\Http\Controllers\ViewCategoryController;
 use App\Http\Controllers\DetailProductController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\PesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth', 'level:admin,kasir,manager']], function (
     Route::resource('/product', ProductController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/transaksi', TransaksiController::class);
+    Route::resource('/table', TableController::class);
     Route::get('/pesanan', [PesananController::class, 'index']);
     Route::put('/pesanan/{id}', [PesananController::class, 'update'])->name('pesanan.update');
 });
