@@ -89,6 +89,22 @@
                                         </label>
                                     </div>
                                     <!-- -->
+                                    @foreach ($metode as $item)
+                                        @if ($item->active)
+                                            @php
+                                                $admin = $item->total_fee->flat + ($item->total_fee->percent / 100) * $total;
+                                            @endphp
+                                            <div class="col-2">
+                                                <label>
+                                                    <input type="radio" name="metode" value="{{ $item->code }}"
+                                                        data-admin-fee="{{ $admin }}" required>
+                                                    <img style="width: 70px" src="{{ $item->icon_url }}"
+                                                        alt="{{ $item->name }}">
+                                                    <small>admin : {{ number_format($admin, 0, ',', '.') }}</small>
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="card mb-4">
@@ -118,9 +134,16 @@
                                         <div class="form-group col-4">
                                             <label for="nomeja" class="col-4">Pilih Meja</label>
                                             <select name="nomeja" id="nomeja" class="form-select">
-                                                @foreach ($tables as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                @endforeach
+                                                @if ($tables->isEmpty())
+                                                    <option value="" disabled>Tidak Ada Meja yang Tersedia
+                                                    </option>
+                                                @else
+                                                    <option value="">Select</option>
+                                                    @foreach ($tables as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -128,7 +151,8 @@
                             </div>
                             <div class="card d-flex">
                                 <div class="card-body d-flex  justify-content-center">
-                                    <button type="submit" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+                                    <button type="submit" class="btn btn-warning btn-block btn-lg">Proceed to
+                                        Pay</button>
                                 </div>
                             </div>
                         </form>
@@ -153,7 +177,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 

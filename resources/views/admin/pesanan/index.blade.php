@@ -45,9 +45,9 @@
                                             {{ $item->status }}</td>
                                         <td class="d-flex">
 
-                                            <a href="" type="button" class="btn btn-info btn-sm"
+                                            <a href="" type="button" class="btn btn-info btn-sm mx-2"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#pesanan_details{{ $item->id }}">detail</a>
+                                                data-bs-target="#pesanan_details{{ $item->id }}">Detail</a>
 
                                             <div class="modal fade" id="pesanan_details{{ $item->id }}" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">

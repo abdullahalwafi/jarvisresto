@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TableStatus;
 use App\Models\Table;
 use App\Models\Pesanan;
 use App\Models\Products;
+use App\Enums\TableStatus;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\PesananDetails;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -82,10 +83,7 @@ class CartController extends Controller
             $pemesan = [];
             $pemesan['nama'] = $request->nama_pemesan;
             $pemesan['no_hp'] = $request->no_hp;
-            $meja = Table::find($request->table_id);
-                if ($meja) {
-                $meja->update(['status' => 'Pending']);
-            }
+            
             $pesanan = Pesanan::create([
                 'kode_pesanan' => $invoice,
                 'nama_pemesan' => $pemesan['nama'],
@@ -103,7 +101,10 @@ class CartController extends Controller
                     'total_harga' => $value['total']
                 ]);
             }
-            
+            $meja = Table::find($request->nomeja);
+                if ($meja) {
+                    $meja->update(['status' => 'Pending']);
+                } 
             
             // stop session cart
             session()->forget('cart');

@@ -138,9 +138,14 @@
 
 
                                 <select class="form-select" aria-label="Default select example" name="status">
-                                    @foreach (App\Enums\TableStatus::cases() as $item)
-                                        <option value="{{ $item->value }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    <option value="Pending" {{ $item->status == 'Pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                    <option value="Available" {{ $item->status == 'Available' ? 'selected' : '' }}>
+                                        Available
+                                    </option>
+                                    <option value="Unavailable" {{ $item->status == 'Unavailable' ? 'selected' : '' }}>
+                                        Unavailable
+                                    </option>
                                 </select>
 
                             </div>
@@ -154,7 +159,8 @@
 
 
     <!--Add-->
-    <div class="modal fade" id="createCategories" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createCategories" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
