@@ -63,9 +63,9 @@
                         <tbody>
                             @foreach ($tables as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->status }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $item->name }}</td>
+                                    <td class="text-center">{{ $item->status }}</td>
                                     <td class="d-flex justify-content-center">
                                         @can('admin')
                                             <a href="" type="button" class="btn btn-warning btn-sm mx-2"
