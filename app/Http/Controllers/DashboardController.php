@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Pesanan;
+use App\Models\PesananDetails;
 use App\Models\Products;
 use App\Models\Transaction;
 use App\Models\User;
@@ -15,17 +17,26 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $tenDaysAgo = now()->subDays(10);
+        $categories = Categories::all();
 
-        $pesananTerbaru = Pesanan::where('created_at', '>=', $tenDaysAgo)
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $jumlahPesananPerKategori = [];
 
-        $categories = $pesananTerbaru->pluck('created_at')->map(function ($date) {
-            return $date->format('M d');
-        });
+        foreach ($categories as $category) {
+            $products = $category->products;
 
-        $data = $pesananTerbaru->pluck('total_harga');
+            $jumlahPesanan = 0;
+
+            foreach ($products as $product) {
+                $pesananDetails = $product->pesanan_details;
+
+                foreach ($pesananDetails as $pesananDetail) {
+                    $jumlahPesanan += $pesananDetail->total_harga;
+                }
+            }
+
+            $jumlahPesananPerKategori[$category->nama] = $jumlahPesanan;
+        }
+
         return view('admin.dashboard', [
             "title" => "Dashboard",
             'totalpesanan' => Pesanan::count(),
@@ -33,11 +44,10 @@ class DashboardController extends Controller
             'totalproducts' => Products::count(),
             'totaluser' => User::count(),
             'userterbaru' => User::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
+            'productsterbaru' => Products::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
             'pesananterbaru' => Pesanan::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
             'transactionterbaru' => Transaction::orderBy('created_at', 'desc')->latest()->limit(8)->get(),
-            'data' => $data,
-            'categories' => $categories,
-            //'isAuthPage' => true,
+            'chart' => $jumlahPesananPerKategori,
         ]);
     }
 

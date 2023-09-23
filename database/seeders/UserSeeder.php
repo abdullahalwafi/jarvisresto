@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'alamat' => 'Jl. Raya Cikarang',
             'nohp' => '081234567890',
             'level' => 'admin',
-            'password' => bcrypt('admin123'),
+            'password' => bcrypt('admin@admin.com'),
         ]);
     }
 }

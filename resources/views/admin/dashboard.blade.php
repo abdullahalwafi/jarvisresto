@@ -77,17 +77,19 @@
     </div> <!-- end row-->
 
     <div class="row">
-        <div class="col-12 m-2">
-            <div class="" id="chartPesanan">
-            </div>
-        </div>
-        <div class="col-12 m-2">
-            <div class="" id="chartPesanan">
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Chart Pesanan</h4>
+
+                    <div class="mt-3">
+                        <div id="sales-analytics-chart" class="apex-charts" dir="ltr"></div>
+                    </div>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
@@ -122,7 +124,33 @@
                 </div><!-- end card-body-->
             </div> <!-- end card-->
         </div><!-- end col -->
+    </div>
 
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title mb-4">Newest Products</h4>
+
+                    <table class="table table-borderless table-centered table-nowrap">
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Kategori</th>
+                        </tr>
+                        @foreach ($productsterbaru as $item)
+                            <tr>
+                                <td>{{ $item->nama }}</td>
+                                <td><?= number_format($item->harga, 0, ',', '.') ?></td>
+                                <td>{{ $item->categories->nama }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+
+                </div>
+            </div>
+        </div>
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
@@ -176,45 +204,253 @@
     </div>
     <!-- end row -->
 @endsection
-@section('footer')
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+@section('chart')
     <script>
-        Highcharts.chart('chartPesanan', {
+        var options1 = {
+                series: [{
+                    data: [25, 66, 41, 89, 63, 25, 44, 20, 36, 40, 54]
+                }],
+                fill: {
+                    colors: ["#5b73e8"]
+                },
+                chart: {
+                    type: "bar",
+                    width: 70,
+                    height: 40,
+                    sparkline: {
+                        enabled: !0
+                    },
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "50%"
+                    }
+                },
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                xaxis: {
+                    crosshairs: {
+                        width: 1
+                    }
+                },
+                tooltip: {
+                    fixed: {
+                        enabled: !1
+                    },
+                    x: {
+                        show: !1
+                    },
+                    y: {
+                        title: {
+                            formatter: function(e) {
+                                return "";
+                            },
+                        },
+                    },
+                    marker: {
+                        show: !1
+                    },
+                },
+            },
+            chart1 = new ApexCharts(
+                document.querySelector("#total-revenue-chart"),
+                options1
+            );
+        chart1.render();
+        var options = {
+                fill: {
+                    colors: ["#34c38f"]
+                },
+                series: [70],
+                chart: {
+                    type: "radialBar",
+                    width: 45,
+                    height: 45,
+                    sparkline: {
+                        enabled: !0
+                    },
+                },
+                dataLabels: {
+                    enabled: !1
+                },
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            margin: 0,
+                            size: "60%"
+                        },
+                        track: {
+                            margin: 0
+                        },
+                        dataLabels: {
+                            show: !1
+                        },
+                    },
+                },
+            },
+            chart = new ApexCharts(document.querySelector("#orders-chart"), options);
+        chart.render();
+        options = {
+            fill: {
+                colors: ["#5b73e8"]
+            },
+            series: [55],
             chart: {
-                type: 'column'
+                type: "radialBar",
+                width: 45,
+                height: 45,
+                sparkline: {
+                    enabled: !0
+                },
             },
-            title: {
-                text: 'Monthly Sales Data'
+            dataLabels: {
+                enabled: !1
             },
-            xAxis: {
-                categories: {!! $categories !!},
-                crosshair: true
+            plotOptions: {
+                radialBar: {
+                    hollow: {
+                        margin: 0,
+                        size: "60%"
+                    },
+                    track: {
+                        margin: 0
+                    },
+                    dataLabels: {
+                        show: !1
+                    },
+                },
             },
-            yAxis: {
-                min: 0,
+        };
+        (chart = new ApexCharts(
+            document.querySelector("#customers-chart"),
+            options
+        )).render();
+        var options2 = {
+                series: [{
+                    data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+                }],
+                fill: {
+                    colors: ["#f1b44c"]
+                },
+                chart: {
+                    type: "bar",
+                    width: 70,
+                    height: 40,
+                    sparkline: {
+                        enabled: !0
+                    },
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "50%"
+                    }
+                },
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                xaxis: {
+                    crosshairs: {
+                        width: 1
+                    }
+                },
+                tooltip: {
+                    fixed: {
+                        enabled: !1
+                    },
+                    x: {
+                        show: !1
+                    },
+                    y: {
+                        title: {
+                            formatter: function(e) {
+                                return "";
+                            },
+                        },
+                    },
+                    marker: {
+                        show: !1
+                    },
+                },
+            },
+            chart2 = new ApexCharts(document.querySelector("#growth-chart"), options2);
+        chart2.render();
+
+        function formatRupiah(angka) {
+            var reverse = angka.toString().split('').reverse().join('');
+            var ribuan = reverse.match(/\d{1,3}/g);
+            var formatted = ribuan.join('.').split('').reverse().join('');
+            return formatted;
+        }
+        options = {
+            chart: {
+                height: 343,
+                type: "line",
+                stacked: !1,
+                toolbar: {
+                    show: !1
+                }
+            },
+            stroke: {
+                width: [2],
+                curve: "smooth"
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: "30%"
+                }
+            },
+            colors: ["#5b73e8"],
+            series: [{
+                name: "Penjualan",
+                type: "area",
+                data: [
+                    @foreach ($chart as $key => $value)
+                        {{ $value }},
+                    @endforeach
+                ],
+            }],
+            fill: {
+                opacity: [0.85],
+                gradient: {
+                    inverseColors: !1,
+                    shade: "light",
+                    type: "vertical",
+                    opacityFrom: 0.85,
+                    opacityTo: 0.55,
+                    stops: [0, 100, 100, 100],
+                },
+            },
+            labels: [
+                @foreach ($chart as $key => $value)
+                    "{{ $key }}",
+                @endforeach
+            ],
+            markers: {
+                size: 0
+            },
+            yaxis: {
                 title: {
-                    text: 'Total Harga'
+                    text: "Points"
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>Rp.{point.y:.1f} </b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Total Pesanan',
-                data: {!! $data !!}
+                shared: !0,
+                intersect: !1,
+                y: {
+                    formatter: function(e) {
+                        if (e !== undefined) {
+                            return "Rp " + formatRupiah(e.toFixed(0));
+                        }
+                        return e;
+                    },
+                },
 
-            }]
-        });
+            },
+            grid: {
+                borderColor: "#f1f1f1"
+            },
+        };
+        (chart = new ApexCharts(
+            document.querySelector("#sales-analytics-chart"),
+            options
+        )).render();
     </script>
 @endsection
