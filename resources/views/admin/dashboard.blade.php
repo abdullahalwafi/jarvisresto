@@ -428,7 +428,7 @@
             },
             yaxis: {
                 title: {
-                    text: "Points"
+                    text: "Rupiah"
                 }
             },
             tooltip: {
