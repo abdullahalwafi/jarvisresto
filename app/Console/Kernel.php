@@ -12,7 +12,35 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('app:daily-open-resto')
+        ->weekdays()
+        ->timezone("Asia/Jakarta")
+        ->at("9:00");
+
+        $schedule->command('app:daily-close-resto')
+        ->weekdays()
+        ->timezone("Asia/Jakarta")
+        ->at("21:00");
+
+        $schedule->command('app:daily-open-resto')
+        ->saturdays()
+        ->timezone("Asia/Jakarta")
+        ->at("9:00");
+
+        $schedule->command('app:daily-close-resto')
+        ->saturdays()
+        ->timezone("Asia/Jakarta")
+        ->at("21:00");
+
+        $schedule->command('app:daily-open-resto')
+        ->mondays()
+        ->timezone("Asia/Jakarta")
+        ->at("10:00");
+
+        $schedule->command('app:daily-close-resto')
+        ->mondays()
+        ->timezone("Asia/Jakarta")
+        ->at("20:00");
     }
 
     /**
