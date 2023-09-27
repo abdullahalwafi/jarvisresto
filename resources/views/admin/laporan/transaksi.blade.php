@@ -59,9 +59,9 @@
                                 <td class="col-2 text-center"><strong>Kembalia</strong></td>
                                 <td class="col-1 text-center"><strong>Status</strong></td>
                             </tr>
-                            <?php 
+                            <?php
                             $total = 0;
-                             ?>
+                            ?>
 
                             @foreach ($transaksi as $item)
                                 <tr style="text-align: center;" class="">
@@ -80,7 +80,7 @@
                                 <?php $total += $item->total_bayar; ?>
                             @endforeach
                             <tr>
-                                <td class="col-1 text-end" ><strong>Total :</strong></td>
+                                <td class="col-1 text-end"><strong>Total :</strong></td>
                                 <td class="col-1 text-center"><strong><?= number_format($total, 0, ',', '.') ?></strong>
                                 </td>
                             </tr>

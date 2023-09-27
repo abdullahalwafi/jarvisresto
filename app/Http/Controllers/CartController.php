@@ -9,6 +9,7 @@ use App\Enums\TableStatus;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\PesananDetails;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -23,13 +24,17 @@ class CartController extends Controller
         return view('home.contents.cart', [
             "title" => "Cart",
             "tables" => Table::where('status', TableStatus::Available)->get(),
-           "metode" => $metode
+            "metode" => $metode
         ]);
     }
 
     public function tambah($id)
     {
 
+        $open_resto = DB::table('open_resto')->where('id', 1)->first();
+        if ($open_resto->is_open == 0){
+            return redirect()->back()->with('added', 'Resto sedang tutup! Silahkan datang kembali pada jam pukul 09:00 - 18:00');
+        }
         $title = "Cart";
         $product = Products::findOrFail($id);
         $cart = session()->get('cart', []);
@@ -83,7 +88,7 @@ class CartController extends Controller
             $pemesan = [];
             $pemesan['nama'] = $request->nama_pemesan;
             $pemesan['no_hp'] = $request->no_hp;
-            
+
             $pesanan = Pesanan::create([
                 'kode_pesanan' => $invoice,
                 'nama_pemesan' => $pemesan['nama'],
@@ -92,7 +97,7 @@ class CartController extends Controller
                 'status' => 'pending',
                 'table_id' => $request->nomeja
             ]);
-            
+
             foreach ($cart as $key => $value) {
                 PesananDetails::create([
                     'pesanan_id' => $pesanan->id,
@@ -102,10 +107,10 @@ class CartController extends Controller
                 ]);
             }
             $meja = Table::find($request->nomeja);
-                if ($meja) {
-                    $meja->update(['status' => 'Pending']);
-                } 
-            
+            if ($meja) {
+                $meja->update(['status' => 'Pending']);
+            }
+
             // stop session cart
             session()->forget('cart');
             return redirect("/")->with('success', 'Pesanan berhasil dibuat');
@@ -145,9 +150,9 @@ class CartController extends Controller
             ]);
             $transaksi = new TripayController();
             $transaksi = $transaksi->requestTransaksi($cart, $metode, $invoice, $total, $pemesan);
-            $meja = Table::find($request->table_id);
+            $meja = Table::find($request->nomeja);
             if ($meja) {
-            $meja->update(['status' => 'Pending']);
+                $meja->update(['status' => 'Pending']);
             }
             $redirect = $transaksi->checkout_url;
             session()->forget('cart');

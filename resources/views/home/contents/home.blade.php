@@ -14,7 +14,7 @@
                     <a href="/menu" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Order Now</a>
                 </div>
                 <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                    <img class="img-fluid" src="img/hero.png" alt="">
+                    <img class="img-fluid" src="hero.png" alt="">
                 </div>
             </div>
         </div>
@@ -204,4 +204,11 @@
         </div>
     </div>
     <!-- Testimonial End -->
+@endsection
+@section('footer')
+    @if ($open_resto && $open_resto->is_open == 0)
+        <script>
+            alert("Resto sedang tutup!\nSilahkan datang kembali pada jam pukul 09:00 - 18:00");
+        </script>
+    @endif
 @endsection

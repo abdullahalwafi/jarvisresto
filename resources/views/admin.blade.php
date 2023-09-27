@@ -299,7 +299,8 @@
         </div>
     </div>
     <!-- Modal Transaksi-->
-    <div class="modal fade" id="lprtransaksi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="lprtransaksi" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">

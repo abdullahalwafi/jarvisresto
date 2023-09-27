@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -11,9 +12,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $openResto = DB::table('open_resto')->where('id', 1)->first();
+
         return view('home.contents.home', [
-            "title"=> "Home",
-            ]);
+            "title" => "Home",
+            "open_resto" => $openResto,
+        ]);
     }
 
     /**
