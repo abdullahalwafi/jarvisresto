@@ -29,7 +29,6 @@
                 <p>10AM - 08PM</p>
             </div>
             <div class="col-lg-3 col-md-6">
-                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
                 <p>Get information and updates on the latest menu.</p>
                 <div class="position-relative mx-auto" style="max-width: 400px;">
                     <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text"
@@ -37,6 +36,14 @@
                     <button type="button"
                         class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Visit Us</h4>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4058682.309745738!2d101.75753161249995!3d-6.577461599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69db0f6d341707%3A0x4411ef3915e7b6be!2sAdila%20ID%20-%20Jasa%20Sosial%20Media%20dan%20E-commerce!5e0!3m2!1sid!2sid!4v1697979926708!5m2!1sid!2sid"
+                    style="width: 100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>

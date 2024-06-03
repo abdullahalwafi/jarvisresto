@@ -49,7 +49,7 @@
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item text-center rounded overflow-hidden">
                             <div class="rounded overflow-hidden mb-2">
-                                <img class="img-fluid" src="\public\img\{{ $product->gambar }}" alt="">
+                                <img style="height: 200px" class="img-fluid" src="\img\{{ $product->gambar }}" alt="">
                             </div>
                             <h5 class="mb-0">{{ $product->nama }}</h5>
                             <small>@currency($product->harga)</small>
@@ -83,7 +83,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-12">
                                     <div class="card text-black">
-                                        <img src="\public\img\{{ $product->gambar }}" class="card-img-top" alt="Menu" />
+                                        <img src="\img\{{ $product->gambar }}" class="card-img-top" style="height:200px"  alt="Menu" />
                                         <div class="card-body">
                                             <div class="text-center">
                                                 <h5 class="card-title">{{ $product->nama }}</h5>
